@@ -1,37 +1,70 @@
 import { GlobalStyle } from './GlobalStyle';
 import { Component } from 'react';
-import { Phonebook } from './Phonebook/Phonebook';
-import { Contacts } from './Contacts/Contacts';
+import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
 import { Section } from './Section/Section';
+import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   state = {
-    contacts: [],
-    name: '',
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
   };
 
-  addContact = (newName) => {
-    this.setState( prevState => {
-      return ({
-        name: [...prevState.name, newName],
-      })
-        
-      
-    })
-    // console.log(newName);
-  }
+  addContact = newName => {
+    if (
+      this.state.contacts.map(contact => contact.name).includes(newName.name)
+    ) {
+      alert(`${newName.name} is already in contacts`);
+    } else {
+      this.setState(prevState => {
+        return {
+          contacts: [...prevState.contacts, newName],
+        };
+      });
+    }
+  };
+
+  changeFilter = newFilter => {
+    this.setState({
+      filter: newFilter,
+    });
+  };
+
+  handleDelete = id => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(contact => contact.id !== id),
+      };
+    });
+  };
 
   render() {
+    const { contacts, filter } = this.state;
+
+    const visibleContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
     return (
       <div>
         <GlobalStyle />
 
-        <Section title='Phonebook'>
-          <Phonebook addContact={this.addContact}/>
+        <Section title="Phonebook">
+          <ContactForm addContact={this.addContact} />
         </Section>
 
-        <Section title='Contacts'>
-          <Contacts name={this.state.name}/>
+        <Section title="Contacts">
+          <Filter value={this.state.filter} onChange={this.changeFilter} />
+          <ContactList
+            contacts={visibleContacts}
+            onDelete={this.handleDelete}
+          />
         </Section>
       </div>
     );
