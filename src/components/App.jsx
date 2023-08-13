@@ -7,22 +7,11 @@ import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
-  // handleChange = (e) => {
-    // console.log(e)
-    // const { name, value } = event.currentTarget;
-    // this.setState({ [name]: value);
-  // };
-
-  addContact = (newName) => {
+  addContact = newName => {
     if (
       this.state.contacts.map(contact => contact.name).includes(newName.name)
     ) {
@@ -62,7 +51,7 @@ export class App extends Component {
         <GlobalStyle />
 
         <Section title="Phonebook">
-          <ContactForm addContact={this.addContact}/>
+          <ContactForm addContact={this.addContact} />
         </Section>
 
         <Section title="Contacts">
