@@ -16,7 +16,13 @@ export class App extends Component {
     filter: '',
   };
 
-  addContact = newName => {
+  // handleChange = (e) => {
+    // console.log(e)
+    // const { name, value } = event.currentTarget;
+    // this.setState({ [name]: value);
+  // };
+
+  addContact = (newName) => {
     if (
       this.state.contacts.map(contact => contact.name).includes(newName.name)
     ) {
@@ -56,7 +62,7 @@ export class App extends Component {
         <GlobalStyle />
 
         <Section title="Phonebook">
-          <ContactForm addContact={this.addContact} />
+          <ContactForm addContact={this.addContact}/>
         </Section>
 
         <Section title="Contacts">
